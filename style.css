@@ -1,0 +1,58 @@
+
+:root{
+	--bg: #f6f7fb;
+	--card: #ffffff;
+	--text: #222;
+	--muted: #666;
+	--primary: #2b7cff;
+	--high: #e74c3c;
+	--medium: #f1c40f;
+	--low: #2ecc71;
+}
+
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; margin:0;background:var(--bg);color:var(--text);}
+.app{max-width:1100px;margin:24px auto;padding:16px}
+header{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.subtitle{color:var(--muted);margin-top:0}
+.top-controls{display:flex;justify-content:space-between;align-items:center}
+.counters span{margin-left:12px;color:var(--muted)}
+
+.layout{display:grid;grid-template-columns:320px 1fr;gap:20px}
+.form-area, .list-area{background:var(--card);padding:16px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.form-area h2,.list-area h2{margin-top:0}
+label{display:block;margin-bottom:10px;font-size:14px}
+input[type="text"],select,input[type="date"]{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;margin-top:6px}
+.form-actions{display:flex;gap:8px;margin-top:8px}
+.btn{padding:8px 12px;border-radius:6px;border:1px solid transparent;background:#eee;cursor:pointer}
+.btn.primary{background:var(--primary);color:white;border-color:rgba(0,0,0,0.04)}
+
+.filters{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.filters label{margin:0}
+
+.tasks{display:flex;flex-direction:column;gap:12px}
+.task-card{display:flex;justify-content:space-between;align-items:flex-start;padding:12px;border-radius:8px;border:1px solid #eee}
+.task-main{display:flex;gap:12px;align-items:flex-start}
+.task-info{min-width:0}
+.task-info h3{margin:0;font-size:16px}
+.meta{color:var(--muted);font-size:13px;margin-top:6px}
+.priority{display:inline-block;padding:4px 8px;border-radius:12px;color:white;font-weight:600;font-size:12px}
+.priority.alta{background:var(--high)}
+.priority.media{background:var(--medium);color:#222}
+.priority.baixa{background:var(--low)}
+
+.task-actions{display:flex;gap:8px}
+.task-actions button{border:0;background:transparent;cursor:pointer;padding:6px;border-radius:6px}
+.task-actions .done{color:green}
+.task-actions .delete{color:#c0392b}
+
+.completed h3{text-decoration:line-through;opacity:0.6}
+
+.empty{color:var(--muted);padding:12px;text-align:center}
+
+/* Dark mode */
+body.dark{background:#0f1724;color:#e6eef8}
+body.dark .form-area, body.dark .list-area{background:#0b1220;border-color:#122033}
+body.dark .btn{background:#16202b;color:#dfe9f5}
+
+@media(max-width:820px){.layout{grid-template-columns:1fr}.top-controls{flex-direction:column;align-items:flex-start;gap:8px}}

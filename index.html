@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do-List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+        <header>
+            <h1>Agenda de Tarefas</h1>
+            <p class="subtitle">Organize suas tarefas por categoria, prioridade e data</p>
+            <div class="top-controls">
+                <button id="toggleTheme" class="btn">Modo Escuro</button>
+                <div class="counters">
+                    <span id="countPending">Pendentes: 0</span>
+                    <span id="countDone">Concluídas: 0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="layout">
+            <section class="form-area">
+                <h2>Adicionar Tarefa</h2>
+                <form id="taskForm">
+                    <label>Nome da tarefa
+                        <input type="text" id="taskName" placeholder="Ex.: Estudar JavaScript" required>
+                    </label>
+
+                    <label>Categoria
+                        <select id="taskCategory" required>
+                            <option value="">Selecione</option>
+                            <option>Trabalho</option>
+                            <option>Estudos</option>
+                            <option>Pessoal</option>
+                            <option>Outro</option>
+                        </select>
+                    </label>
+
+                    <label>Prioridade
+                        <select id="taskPriority" required>
+                            <option value="">Selecione</option>
+                            <option value="alta">Alta</option>
+                            <option value="media">Média</option>
+                            <option value="baixa">Baixa</option>
+                        </select>
+                    </label>
+
+                    <label>Data limite
+                        <input type="date" id="taskDueDate" required>
+                    </label>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary">Adicionar Tarefa</button>
+                        <button type="reset" class="btn">Limpar</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="list-area">
+                <div class="filters">
+                    <label>Filtrar por categoria
+                        <select id="filterCategory">
+                            <option value="all">Todas</option>
+                            <option>Trabalho</option>
+                            <option>Estudos</option>
+                            <option>Pessoal</option>
+                            <option>Outro</option>
+                        </select>
+                    </label>
+
+                    <label>Ordenar por
+                        <select id="sortBy">
+                            <option value="date">Data</option>
+                            <option value="priority">Prioridade</option>
+                        </select>
+                    </label>
+                </div>
+
+                <h2>Minhas Tarefas</h2>
+                <div id="emptyMessage" class="empty">Nenhuma tarefa encontrada.</div>
+                <div id="tasksList" class="tasks"></div>
+            </section>
+        </main>
+
+        <footer>
+            <small>Feito com HTML5, CSS3 e JavaScript — Atividade 2</small>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+
+</body>
+</html>
