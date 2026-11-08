@@ -12,19 +12,22 @@ const countPending = document.getElementById('countPending');
 const countDone = document.getElementById('countDone');
 const toggleTheme = document.getElementById('toggleTheme');
 
+const API = '/api/tasks';
+
 let tasks = [];
 
-function loadState(){
+async function loadState(){
 	try{
-		const raw = localStorage.getItem('todo_tasks_v1');
-		tasks = raw ? JSON.parse(raw) : [];
-	}catch(e){tasks = []}
+		const res = await fetch(API);
+		if(!res.ok) throw new Error('Falha ao buscar tarefas');
+		tasks = await res.json();
+	}catch(e){
+		tasks = [];
+		alert('Não foi possível carregar as tarefas. O servidor (node server.js) está rodando?');
+	}
+	// o tema continua no localStorage
 	const theme = localStorage.getItem('todo_theme');
 	if(theme === 'dark') document.body.classList.add('dark');
-}
-
-function saveState(){
-	localStorage.setItem('todo_tasks_v1', JSON.stringify(tasks));
 }
 
 function formatDate(iso){
@@ -102,7 +105,8 @@ function updateCounts(){
 	countDone.textContent = `Concluídas: ${done}`;
 }
 
-function addTask(e){
+// CREATE
+async function addTask(e){
 	e.preventDefault();
 	const name = taskName.value.trim();
 	const category = taskCategory.value;
@@ -114,26 +118,54 @@ function addTask(e){
 		return;
 	}
 
-	const newTask = {id: Date.now().toString(), name, category, priority, dueDate, completed:false};
-	tasks.push(newTask);
-	saveState();
-	renderTasks();
-	taskForm.reset();
+	try{
+		const res = await fetch(API, {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({name, category, priority, dueDate})
+		});
+		if(!res.ok) throw new Error('Falha ao criar tarefa');
+		const newTask = await res.json(); // já vem com o id gerado pelo MongoDB
+		tasks.push(newTask);
+		renderTasks();
+		taskForm.reset();
+	}catch(err){
+		alert('Erro ao adicionar a tarefa.');
+	}
 }
 
-function toggleDone(id){
+// UPDATE
+async function toggleDone(id){
 	const t = tasks.find(x=>x.id===id);
 	if(!t) return;
-	t.completed = !t.completed;
-	saveState();
-	renderTasks();
+
+	try{
+		const res = await fetch(`${API}/${id}`, {
+			method: 'PATCH',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({completed: !t.completed})
+		});
+		if(!res.ok) throw new Error('Falha ao atualizar tarefa');
+		const updated = await res.json();
+		t.completed = updated.completed;
+		renderTasks();
+	}catch(err){
+		alert('Erro ao atualizar a tarefa.');
+	}
 }
 
-function deleteTask(id){
+// DELETE
+async function deleteTask(id){
 	if(!confirm('Excluir essa tarefa?')) return;
-	tasks = tasks.filter(x=>x.id!==id);
-	saveState();
-	renderTasks();
+
+	try{
+		const res = await fetch(`${API}/${id}`, {method: 'DELETE'});
+		if(!res.ok) throw new Error('Falha ao excluir tarefa');
+		tasks = tasks.filter(x=>x.id!==id);
+		renderTasks();
+	}catch(err){
+		alert('Erro ao excluir a tarefa.');
+	}
 }
 
 filterCategory.addEventListener('change', renderTasks);
@@ -147,6 +179,8 @@ toggleTheme.addEventListener('click', ()=>{
 	toggleTheme.textContent = document.body.classList.contains('dark') ? 'Modo Claro' : 'Modo Escuro';
 });
 
-// inicialização
-loadState();
-renderTasks();
+// inicialização (loadState agora é assíncrona, então esperamos antes de renderizar)
+(async ()=>{
+	await loadState();
+	renderTasks();
+})();

@@ -1,0 +1,25 @@
+{
+  "name": "todo_mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brizmann/Programacao_Web_Atv2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Brizmann/Programacao_Web_Atv2/issues"
+  },
+  "homepage": "https://github.com/Brizmann/Programacao_Web_Atv2#readme",
+  "dependencies": {
+    "express": "^5.3.0",
+    "mongodb": "^7.8.0"
+  }
+}
